@@ -48,7 +48,7 @@
       <file leaf-file-name="bootstrap.min.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/css/bootstrap.min.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
+            <state relative-caret-position="150">
               <caret line="10" column="1101" lean-forward="false" selection-start-line="10" selection-start-column="1101" selection-end-line="10" selection-end-column="1101" />
               <folding />
             </state>
@@ -163,11 +163,6 @@
               <item name="hammock-project.github.io.git" type="b2602c69:ProjectViewProjectNode" />
               <item name="hammock-project.github.io.git" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="hammock-project.github.io.git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="hammock-project.github.io.git" type="462c0819:PsiDirectoryNode" />
-              <item name="output" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -313,12 +308,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1503269903056</updated>
-      <workItem from="1503269904318" duration="5437000" />
+      <workItem from="1503269904318" duration="5869000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5437000" />
+    <option name="totallyTimeSpent" value="5869000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1112" extended-state="0" />
@@ -392,12 +387,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-863">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1503277255000" expanded="true" signature="2599:2827" ph="..." />
-            <marker date="1503277255000" expanded="true" signature="2629:2816" ph="..." />
-            <marker date="1503277255000" expanded="false" signature="2663:2669" ph="©" />
-            <marker date="1503277255000" expanded="true" signature="2842:2912" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -461,7 +451,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/css/bootstrap.min.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
+        <state relative-caret-position="150">
           <caret line="10" column="1101" lean-forward="false" selection-start-line="10" selection-start-column="1101" selection-end-line="10" selection-end-column="1101" />
           <folding />
         </state>
