@@ -14,3 +14,4 @@ mv $WORKDIR/* .
 git add .
 git commit -m "Rebuilding site"
 git push origin master
+git checkout develop
