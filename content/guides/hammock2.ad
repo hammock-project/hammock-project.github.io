@@ -1,0 +1,14 @@
+= Migrating to Hammock 2
+Hammock
+2017-08-21
+:jbake-type: page
+:jbake-status: published
+:idprefix:
+:toc:
+
+== Notable Differences
+
+- Hammock 2.0 is based on CDI 2, using Weld 3.0 and OWB 2.0 only.  CDI 1.x is no longer available.
+- Apache DeltaSpike Config has been replaced by Geronimo Config, which implements MicroProfile Config
+- JWT Claims have been changed to align with MicroProfile JWT specification
+- The MicroProfile distributions now include the components required for MicroProfile 1.2

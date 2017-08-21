@@ -1,0 +1,68 @@
+= Getting Started
+Hammock
+2017-08-21
+:jbake-type: page
+:jbake-status: published
+:idprefix:
+:toc:
+
+== Getting Started with Hammock
+
+Hammock is a highly opinionated MicroServices framework that gives you a large amount of flexibility when building your applications.
+
+Hammock supports 2 different CDI implementations, 3 different JAX-RS implementations, 3 different servlet containers.
+
+== Adding Dependencies
+
+The easiest way to get started is to use one of the prepackaged MicroProfile distributions
+
+[source,xml]
+----
+<dependency>
+  <groupId>ws.ament.hammock</groupId>
+  <artifactId>dist-microprofile</artifactId>
+  <version>1.5</version>
+</dependency>
+----
+
+You'll also want to determine how you want to package your application.  Capsule is the easiest, it gives nice JAR isolation and doesn't introduce the problems with the Maven Shade Plugin.
+
+[source,xml]
+----
+<plugin>
+    <groupId>com.github.chrisdchristo</groupId>
+    <artifactId>capsule-maven-plugin</artifactId>
+    <version>1.4.3</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>build</goal>
+            </goals>
+            <configuration>
+                <appClass>ws.ament.hammock.Bootstrap</appClass>
+                <type>fat</type>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+----
+
+Once you have your build going, its simply a matter of adding your first REST service
+
+[source,java]
+----
+@RequestScoped
+@Path("/hello")
+public class HelloService {
+    @GET
+    public String sayHello() {
+        return "Hello, World!";
+    }
+}
+----
+
+Run your application, `open http://localhost:8080/hello` and you'll see your endpoint working.
+
+== Other Modules
+
+A full list of modules can be found on the [wiki](https://github.com/hammock-project/hammock/wiki/Modules)
