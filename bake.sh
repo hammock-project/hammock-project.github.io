@@ -1,1 +1,1 @@
-jbake -b . docs
+jbake -b . $WORKDIR
