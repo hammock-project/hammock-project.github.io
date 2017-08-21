@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>About</title>
+    <title>Migrating to Hammock 2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -10,14 +10,14 @@
     <meta name="generator" content="JBake">
 
     <!-- Le styles -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/asciidoctor.css" rel="stylesheet">
-    <link href="css/base.css" rel="stylesheet">
-    <link href="css/prettify.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/asciidoctor.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/prettify.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="js/html5shiv.min.js"></script>
+      <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
 
     <!-- Fav and touch icons -->
@@ -25,7 +25,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="../favicon.ico">
   </head>
   <body onload="prettyPrint()">
     <div id="wrap">
@@ -40,28 +40,52 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" style="padding:0px 15px" href="">
+            <a class="navbar-brand" style="padding:0px 15px" href="../">
                 <img alt="Brand" src="/img/hammock_silver_cropped.png" height="60" width="100">
             </a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>
 <div class="container">	
 	<div class="page-header">
-		<h1>About</h1>
+		<h1>Migrating to Hammock 2</h1>
 	</div>
 
-	<p><em>24 September 2013</em></p>
+	<p><em>21 August 2017</em></p>
 
-	<p>
-Hammock is a CDI based MicroServices framework.
-</p>
+	<p><div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#notable_differences">Notable Differences</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="notable_differences">Notable Differences</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Hammock 2.0 is based on CDI 2, using Weld 3.0 and OWB 2.0 only.  CDI 1.x is no longer available.</p>
+</li>
+<li>
+<p>Apache DeltaSpike Config has been replaced by Geronimo Config, which implements MicroProfile Config</p>
+</li>
+<li>
+<p>JWT Claims have been changed to align with MicroProfile JWT specification</p>
+</li>
+<li>
+<p>The MicroProfile distributions now include the components required for MicroProfile 1.2</p>
+</li>
+</ul>
+</div>
+</div>
+</div></p>
 
 	<hr />
 
@@ -78,9 +102,9 @@ Hammock is a CDI based MicroServices framework.
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.11.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/prettify.js"></script>
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/prettify.js"></script>
     
   </body>
 </html>
