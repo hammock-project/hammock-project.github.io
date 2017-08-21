@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JBake</title>
+    <link>https://hammock-project.github.io</link>
+    <atom:link href="https://hammock-project.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <description>JBake Bootstrap Template</description>
+    <language>en-gb</language>
+    <pubDate>Sun, 20 Aug 2017 21:00:55 -0400</pubDate>
+    <lastBuildDate>Sun, 20 Aug 2017 21:00:55 -0400</lastBuildDate>
+
+
+  </channel> 
+</rss>
