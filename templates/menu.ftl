@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" style="padding:0px 15px" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>">
-                <img alt="Brand" src="/img/hammock_silver_cropped.png" height="60" width="100">
+                <img alt="Brand" src="/img/hammock_white.png" height="75" width="162">
             </a>
         </div>
         <div class="navbar-collapse collapse">
