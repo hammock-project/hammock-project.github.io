@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Working with Databases</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/asciidoctor.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/prettify.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="padding:0px 15px" href="../">
+                <img alt="Brand" src="/img/hammock_white.png" height="75" width="162">
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="https://github.com/hammock-project">GitHub</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Core Concepts <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/guides/cdi_runtimes.html">CDI Runtimes</a></li>
+                        <li><a href="/guides/packaging.html">Packaging</a></li>
+                        <li><a href="/guides/webservers.html">WebServers</a></li>
+                        <li><a href="/guides/rest-apis.html">Rest APIs</a></li>
+                        <li><a href="/guides/databases.html">Databases</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/guides/related.html">Related Tools</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+<div class="container">	
+	<div class="page-header">
+		<h1>Working with Databases</h1>
+	</div>
+
+	<div class="sect1">
+<h2 id="using_jpa">Using JPA</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Adding a dependency on <code>ws.ament.hammock:jpa-core</code> will add basic JPA integration to your project.</p>
+</div>
+<div class="sect2">
+<h3 id="default_entitymanager_datasource">Default EntityManager &amp; DataSource</h3>
+<div class="paragraph">
+<p>If you do nothing else with Hammock, out of the box a single <code>EntityManagerFactory</code> will be created with a default <code>DataSource</code> defined.  You will still need to declare a dependency on your JDBC driver, as well as define the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property Name</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hammock.jpa.__default.datasource</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">__default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name to use for the default EntityManager</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hammock.datasource.__default.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The JDBC URL to use for your DataSource.  Either this or datasource have to be specified</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hammock.datasource.__default.user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The JDBC User to use for your DataSource.  It is not required, since basic connectors like H2 and HSQL don&#8217;t require it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hammock.datasource.__default.password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The JDBC Password to use for your DataSource.  It is not required, since basic connectors like H2 and HSQL don&#8217;t require it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hammock.datasource.__default.datasource</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of a previously defined DataSource to use.  You should only use this property if you are not using the url/user/password combination.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="vendor_specific_modules">Vendor Specific Modules</h3>
+<div class="paragraph">
+<p>There are three vendor specific modules for JPA support:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ws.ament.hammock:jpa-hibernate</code> (JPA 2.1)</p>
+</li>
+<li>
+<p><code>ws.ament.hammock:jpa-eclipselink</code> (JPA 2.2)</p>
+</li>
+<li>
+<p><code>ws.ament.hammock:jpa-openjpa</code> (JPA 2.0)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each of these dependencies bring in the JPA Core module from Hammock plus the actual runtime dependencies to make these framework work.  There is no production code in any of these modules, so you can just as easily declare a dependency on <code>jpa-core</code> as well as your preferred framework.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="defining_datasources">Defining DataSources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Hammock allows you to define <code>DataSource</code> instances using a few methods:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Annotate any bean with <code>@javax.annotation.sql.DataSourceDefinition</code> with necessary properties to connect to your database</p>
+</li>
+<li>
+<p>Define a producer <code>@Produces @Database(name) ws.ament.hammock.jpa.DataSourceDefinition</code></p>
+</li>
+<li>
+<p>Create additional properties that reference your datasource name, e.g. <code>hammock.datasource.foo.url</code> will create a <code>DataSource</code> named <code>foo</code> in your application.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you are using the producer approach, you can inject a builder that helps create the datasource, like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>   @Produces
+   @Database("test2")
+   public DataSourceDefinition createDataSource(DataSourceDefinitionBuilder builder) {
+      return builder.url("jdbc:h2:mem:test_mem").build();
+   }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which will create a <code>DataSource</code> named <code>test2</code> connected to the JDBC URL <code>jdbc:h2:mem:test_mem</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="under_the_hood">Under the Hood</h3>
+<div class="paragraph">
+<p>Each <code>DataSource</code> created is actually an instance of <code>HikariDataSource</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="managing_database_migrations">Managing Database Migrations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you declare a dependency on <code>ws.ament.hammock:util-flyway</code> your application will have support for migrating databases.  As the name implies, it&#8217;s based on <a href="https://flywaydb.org/">FlywayDB</a>.  Defining any <code>flyway</code> property in any of your register <code>ConfigSource`s will cause that property to be passed to Flyway, effectively the same properties that would go in to `flyway.conf</code>.  Hammock uses one special property, <code>flyway.execute</code> which controls what operations to execute.</p>
+</div>
+</div>
+</div>
+
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2017 | Hammock Project | Hosted by GitHub | Baked with JBake | Styling with Bootstrap</a></p>
+      </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/prettify.js"></script>
+    
+  </body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Getting Started</title>
+    <title>Rest APIs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -67,83 +67,84 @@
 </div>
 <div class="container">	
 	<div class="page-header">
-		<h1>Getting Started</h1>
+		<h1>Rest APIs</h1>
 	</div>
 
 	<div class="sect1">
-<h2 id="getting_started_with_hammock">Getting Started with Hammock</h2>
+<h2 id="building_your_first_rest_controller">Building your first Rest Controller</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Hammock is a highly opinionated MicroServices framework that gives you a large amount of flexibility when building your applications.</p>
-</div>
-<div class="paragraph">
-<p>Hammock supports 2 different CDI implementations, 3 different JAX-RS implementations, 3 different servlet containers.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="adding_dependencies">Adding Dependencies</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The easiest way to get started is to use one of the prepackaged MicroProfile distributions</p>
+<p>Once you&#8217;ve gotten through <a href="/guides/cdi_runtimes.html">bootstrapping</a> and <a href="/guides/packaging.html">packaging</a> you&#8217;ll want to write your first controller.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-  &lt;groupId&gt;ws.ament.hammock&lt;/groupId&gt;
-  &lt;artifactId&gt;dist-microprofile&lt;/artifactId&gt;
-  &lt;version&gt;1.5&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You&#8217;ll also want to determine how you want to package your application.  Capsule is the easiest, it gives nice JAR isolation and doesn&#8217;t introduce the problems with the Maven Shade Plugin.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-xml" data-lang="xml">&lt;plugin&gt;
-    &lt;groupId&gt;com.github.chrisdchristo&lt;/groupId&gt;
-    &lt;artifactId&gt;capsule-maven-plugin&lt;/artifactId&gt;
-    &lt;version&gt;1.4.3&lt;/version&gt;
-    &lt;executions&gt;
-        &lt;execution&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;build&lt;/goal&gt;
-            &lt;/goals&gt;
-            &lt;configuration&gt;
-                &lt;appClass&gt;ws.ament.hammock.Bootstrap&lt;/appClass&gt;
-                &lt;type&gt;fat&lt;/type&gt;
-            &lt;/configuration&gt;
-        &lt;/execution&gt;
-    &lt;/executions&gt;
-&lt;/plugin&gt;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Once you have your build going, its simply a matter of adding your first REST service</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-java" data-lang="java">@RequestScoped
-@Path("/hello")
-public class HelloService {
-    @GET
-    public String sayHello() {
-        return "Hello, World!";
-    }
+<pre class="prettyprint highlight"><code>@RequestScoped
+@Path("/")
+public class MyController {
+	@GET
+	public Response handleRequest() {
+		return Response.ok("Hello, World!").build();
+	}
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Run your application, <code>open <a href="http://localhost:8080/hello" class="bare">http://localhost:8080/hello</a></code> and you&#8217;ll see your endpoint working.</p>
+<p>Simply add that class to your project and you&#8217;ll get a ready to use Rest API.  If you make no other changes, simply <code>open <a href="http://localhost:8080/" class="bare">http://localhost:8080/</a></code> and you&#8217;ll see "Hello, World!".</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="other_modules">Other Modules</h2>
+<h2 id="server_components">Server Components</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="apache_cxf">Apache CXF</h3>
+<div class="paragraph">
+<p>When you include the artifact <code>ws.ament.hammock:rest-cxf</code> Hammock uses Apache CXF 3.2, which includes support for JAX-RS 2.1.  The modules provided out of the box from CXF include <code>cxf-integration-cdi</code> (CXF Core + CDI integration), <code>cxf-rt-rs-client</code> (CXF Client API), <code>cxf-rt-rs-sse</code> (CXF SSE), and <code>cxf-rt-transports-http</code> (CXF Transport over HTTP/Servlets).  You&#8217;re free to include other modules as needed.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jersey">Jersey</h3>
+<div class="paragraph">
+<p>When you include the artifact <code>ws.ament.hammock:rest-jersey</code> Hammock uses Jersey 2.26, the reference implementation for JAX-RS 2.1.  The modules provided by this integration are <code>jersey-cdi1x</code> (Jersey CDI Support), <code>jersey-container-servlet</code> (Jersey Servlet support &amp; Jersey Core), <code>jersey-cdi1x-servlet</code> (Jersey Servlet/CDI Integration), <code>jersey-media-sse</code> (Jersey SSE support) and <code>jersey-hk2</code> (Jersey/HK2 integration)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jboss_resteasy">JBoss RestEasy</h3>
+<div class="paragraph">
+<p>When you include <code>ws.ament.hammock:rest-resteasy</code> Hammock uses RestEasy 3.1.4 which supports JAX-RS 2.0.  This brings in the modules <code>resteasy-jaxrs</code> (Core JAX-RS runtime), <code>resteasy-cdi</code> (CDI integration), <code>resteasy-client</code> (Client API), and <code>resteasy-servlet-initializer</code> (Servlet integration).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="client_side">Client Side</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A full list of modules can be found on the [wiki](<a href="https://github.com/hammock-project/hammock/wiki/Modules" class="bare">https://github.com/hammock-project/hammock/wiki/Modules</a>)</p>
+<p>Hammock supports JAX-RS clients as well as server components.  Each implementation supports a bean that satisfies <code>@Inject Client</code> to get a reference to your client runtime.  If you want to add configuration support to the client, to avoid having it in multiple places, you can add an observer method to the client.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>public void addProvider(@Observes @Configuring Client client) {
+	client.register(MyProvider.class);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which will add this provider to all clients bieng looked up.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="adding_media_support">Adding Media Support</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Automatic registration of JAX-RS providers is handled by the underlying JAX-RS implementation, for the server side components.  In the case of Jersey, they use their internal <code>ForcedAutoDiscoverable</code> interface to register features.  In RestEasy, providers are discovered via <code>ServiceLoader</code> for <code>MessageBodyReader</code> or <code>MessageBodyWriter</code> but others are not.  CXF does not seem to discover anything by default.</p>
+</div>
+<div class="paragraph">
+<p>On the client side, RestEasy behaves the same way.  Jersey and CXF do not seem to load providers this way automatically.</p>
+</div>
+<div class="paragraph">
+<p>If you add a dependency to <code>ws.ament.hammock:johnzon</code> the Apache Johnzon JSON-P and JSON-B providers will be registered automatically.  This approach could be used in all of the JAX-RS implementations.</p>
 </div>
 </div>
 </div>
