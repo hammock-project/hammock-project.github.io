@@ -1,0 +1,15 @@
+= Related Tools
+Hammock - Other CDI Components
+2017-09-23
+:jbake-type: page
+:jbake-status: published
+:idprefix:
+
+== Other tools to look at
+
+Hammock is really only here to provide glue where glue is needed.  Its not intending to recreate the wheel, simply make things easier to plug in where it needs to.  Due to that, you won't find every tool you can find in the suite of Hammock, instead references to other components where they make sense.
+
+- link:http://deltaspike.apache.org/[Apache DeltaSpike] provides a suite of tools for writing robust CDI applciations.  One of their key components if a repository model built on CDI, which you may find useful with JPA support.
+- link:https://projects.eclipse.org/projects/technology.jnosql[Eclipse JNOSQL] provides a suite of CDI extensions for working with NoSQL Data Stores
+- link:http://www.vraptor.org/[VRaptor] an MVC framework built on CDI
+- link:https://vaadin.com/docs/framework/v8/advanced/advanced-cdi.html[Vaadin CDI]

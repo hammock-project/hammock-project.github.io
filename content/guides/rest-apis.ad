@@ -1,0 +1,58 @@
+= Rest APIs
+Hammock - Rest APIs
+2017-09-23
+:jbake-type: page
+:jbake-status: published
+:idprefix:
+
+== Building your first Rest Controller
+
+Once you've gotten through link:/guides/cdi_runtimes.html[bootstrapping] and link:/guides/packaging.html[packaging] you'll want to write your first controller.
+
+```
+@RequestScoped
+@Path("/")
+public class MyController {
+	@GET
+	public Response handleRequest() {
+		return Response.ok("Hello, World!").build();
+	}
+}
+```
+
+Simply add that class to your project and you'll get a ready to use Rest API.  If you make no other changes, simply `open http://localhost:8080/` and you'll see "Hello, World!".
+
+== Server Components
+
+=== Apache CXF
+
+When you include the artifact `ws.ament.hammock:rest-cxf` Hammock uses Apache CXF 3.2, which includes support for JAX-RS 2.1.  The modules provided out of the box from CXF include `cxf-integration-cdi` (CXF Core + CDI integration), `cxf-rt-rs-client` (CXF Client API), `cxf-rt-rs-sse` (CXF SSE), and `cxf-rt-transports-http` (CXF Transport over HTTP/Servlets).  You're free to include other modules as needed.
+
+=== Jersey
+
+When you include the artifact `ws.ament.hammock:rest-jersey` Hammock uses Jersey 2.26, the reference implementation for JAX-RS 2.1.  The modules provided by this integration are `jersey-cdi1x` (Jersey CDI Support), `jersey-container-servlet` (Jersey Servlet support & Jersey Core), `jersey-cdi1x-servlet` (Jersey Servlet/CDI Integration), `jersey-media-sse` (Jersey SSE support) and `jersey-hk2` (Jersey/HK2 integration)
+
+=== JBoss RestEasy
+
+When you include `ws.ament.hammock:rest-resteasy` Hammock uses RestEasy 3.1.4 which supports JAX-RS 2.0.  This brings in the modules `resteasy-jaxrs` (Core JAX-RS runtime), `resteasy-cdi` (CDI integration), `resteasy-client` (Client API), and `resteasy-servlet-initializer` (Servlet integration).
+
+== Client Side
+
+Hammock supports JAX-RS clients as well as server components.  Each implementation supports a bean that satisfies `@Inject Client` to get a reference to your client runtime.  If you want to add configuration support to the client, to avoid having it in multiple places, you can add an observer method to the client.
+
+
+```
+public void addProvider(@Observes @Configuring Client client) {
+	client.register(MyProvider.class);
+}
+```
+
+Which will add this provider to all clients bieng looked up.
+
+== Adding Media Support
+
+Automatic registration of JAX-RS providers is handled by the underlying JAX-RS implementation, for the server side components.  In the case of Jersey, they use their internal `ForcedAutoDiscoverable` interface to register features.  In RestEasy, providers are discovered via `ServiceLoader` for `MessageBodyReader` or `MessageBodyWriter` but others are not.  CXF does not seem to discover anything by default.
+
+On the client side, RestEasy behaves the same way.  Jersey and CXF do not seem to load providers this way automatically.  
+
+If you add a dependency to `ws.ament.hammock:johnzon` the Apache Johnzon JSON-P and JSON-B providers will be registered automatically.  This approach could be used in all of the JAX-RS implementations.

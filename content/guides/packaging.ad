@@ -1,0 +1,64 @@
+= Packaging
+Hammock - Packaging your Application
+2017-09-23
+:jbake-type: page
+:jbake-status: published
+:idprefix:
+
+== How to package your application
+
+Hammock deviates from standard Java EE by encouraging the use of 'uber-jar's, where all of your dependencies are packaged with your application.  Hammock projects can be packaged using shaded JARs, but those tend to lead to very large single JARs and become hard to follow.  It is highly recommended to use link:http://www.capsule.io/[Capsule] to package your applications.  This leaves your JARs in tact and not mixed together with the libraries packaged along side them.
+
+=== Example Maven Configuration
+
+The below is an example maven project that can be used to package your application using Capsule
+
+```
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.mycompany</groupId>
+    <artifactId>my-service</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <properties>
+        <hammock.version>2.0</hammock.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>ws.ament.hammock</groupId>
+            <artifactId>dist-microprofile</artifactId>
+            <version>${hammock.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.chrisdchristo</groupId>
+                <artifactId>capsule-maven-plugin</artifactId>
+                <version>${capsule.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <appClass>ws.ament.hammock.Bootstrap</appClass>
+                            <type>fat</type>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+This uses the base MicroProfile distribution from Hammock.  It registers the main method from `ws.ament.hammock.Boostrap` and sets up the build as a fat JAR, all of the packages will be in the JAR and nothing will be downloaded at runtime.  Capsule has a few other configurations you may want to try.  The results of this build gives you a file named `my-service-1.0-SNAPSHOT-capsule.jar` in your target folder, which will be about 13 mb in size.  Not too bad.

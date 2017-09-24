@@ -1,0 +1,83 @@
+= WebServers
+Hammock - WebServers
+2017-09-23
+:jbake-type: page
+:jbake-status: published
+:idprefix:
+
+== Embedded Servlet Containers
+
+Hammock provides support for three embedded servlet runtimes.  Each webserver is started during the CDI event `AfterDeploymentValidation`, and is registered as a CDI extension.  
+
+=== Apache Tomcat
+
+Apache Tomcat is based on the 9.0 series of milestones, providing early previews of Servlet 4 functionality.  It also helps fix a concurrency issue with Weld caused by start/stops occurring on different threads.  To use it in your project, add a dependency on `ws.ament.hammock:web-tomcat`.  It does support WebSockets as well as Servlets, Filters and Listeners.  Listeners are not treated as CDI beans.
+
+=== JBoss Undertow
+
+JBoss Undertow is a light weight embedded container runtime.  To use it in your project, add a dependency on `ws.ament.hammock:web-tomcat`.  To use WebSockets, you need to have an annotated endpoint.  It supports Servlets, Filters and Listeners via normal means.
+
+=== Eclipse Jetty
+
+Using the module `ws.ament.hammock:web-jetty` brings in Jetty as your webserver.  It supports WebSockets, Servlets, Filters and Listeners.  The `Decorator` used, intended to inject into fields, replaces the instance with an unmanaged version from CDI.
+
+=== Configuration settings
+
+The below configuration settings can be added to any property file or other `ConfigSource` you register.
+
+[cols=3*,options="header"]
+|===
+| Property Name | Default Value | Description
+| webserver.port | 8080 | The HTTP Listen Port
+| webserver.address | 0.0.0.0 | The Bind Address, the default 0.0.0.0 means it will listen on all addresses
+| file.dir | /tmp | The location to load static files from
+| webserver.secured.port | 0 | If non-zero, starts an HTTPS listener on the given port
+| webserver.keystore.path | N/A | The keystore path.  Must be set for SSL support.
+| webserver.keystore.type | N/A | The keystore type.  Must be set for SSL support.
+| webserver.keystore.password | N/A | The keystore password.  Must be set for SSL support.
+| webserver.truststore.path | N/A | The location for the truststore.  This property is not used in Tomcat
+| webserver.truststore.type | N/A | The truststore type.  This property is not used in Tomcat
+| webserver.truststore.password | N/A | The truststore password.  This property is not used in Tomcat
+|===
+
+== Understanding Container Behavior
+
+Hammock creates instances of unmanaged beans to better align to how the Java EE specification treats these resources.  However, there is a relationship with CDI Bean Discovery:
+
+* `bean-discovery-mode=none` means that no components will be discovered within that specific JAR file
+* `bean-discovery-mode=all` means that all components will be scanned.  You can optionally use a link:http://docs.jboss.org/cdi/spec/2.0/cdi-spec.html#trimmed_bean_archive[`<trim/>`] tag.
+* `bean-discovery-mode=annotated` means that the only components to be scanned are those with link:http://docs.jboss.org/cdi/spec/2.0/cdi-spec.html#bean_defining_annotations[bean defining annotations].  Functionally, this means you should add `@Dependent` as your scope for these classes.
+
+Which means in `bean-discovery-mode=all` the following servlet would be discovered:
+
+```
+@WebServlet(urlPatterns = {"/*"}, name = "DefaultServlet")
+public class DefaultServlet extends HttpServlet{
+....
+}
+```
+
+But would not be discovered in `bean-discovery-mode=annotated` or with `<trim/>` enabled.  To discovery it in these, you must change its definition to:
+
+```
+@Dependent
+@WebServlet(urlPatterns = {"/*"}, name = "DefaultServlet")
+public class DefaultServlet extends HttpServlet{
+....
+}
+```
+
+Note the explicit usage of `@Dependent` versus the implicit usage in the first definition.
+
+== Using Annotations
+
+`@WebFilter`, `@WebServlet`, and `@WebListener` are the preferred means to registering your component.  URL mappings can be represented as configuration properties, which can even be a comma separated list.  Take for example how the Camel Servlet is registered:
+
+```
+@WebServlet(urlPatterns = {"${camel.servlet.uri}"}, name = "CamelServlet")
+@Dependent
+public class HammockCamelServlet extends CamelHttpTransportServlet {
+}
+```
+
+This configuration property will be resolved at deployment time only and set the path.  There is a default value that is used when this property is not available.

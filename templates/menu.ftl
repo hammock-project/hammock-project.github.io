@@ -16,21 +16,19 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>index.html">Home</a></li>
                 <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>about.html">About</a></li>
-                <#--<li>-->
-                    <#--<a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>${config.feed_file}">Subscribe</a>-->
-                <#--</li>-->
-                <#--<li class="dropdown">-->
-                    <#--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
-                    <#--<ul class="dropdown-menu">-->
-                        <#--<li><a href="#">Action</a></li>-->
-                        <#--<li><a href="#">Another action</a></li>-->
-                        <#--<li><a href="#">Something else here</a></li>-->
-                        <#--<li class="divider"></li>-->
-                        <#--<li class="dropdown-header">Nav header</li>-->
-                        <#--<li><a href="#">Separated link</a></li>-->
-                        <#--<li><a href="#">One more separated link</a></li>-->
-                    <#--</ul>-->
-                <#--</li>-->
+                <li><a href="https://github.com/hammock-project">GitHub</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Core Concepts <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/guides/cdi_runtimes.html">CDI Runtimes</a></li>
+                        <li><a href="/guides/packaging.html">Packaging</a></li>
+                        <li><a href="/guides/webservers.html">WebServers</a></li>
+                        <li><a href="/guides/rest-apis.html">Rest APIs</a></li>
+                        <li><a href="/guides/databases.html">Databases</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/guides/related.html">Related Tools</a></li>
+                    </ul>
+                </li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

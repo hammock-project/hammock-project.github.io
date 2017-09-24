@@ -1,0 +1,62 @@
+= Working with Databases
+Hammock
+2017-09-23
+:jbake-type: page
+:jbake-status: published
+:idprefix:
+
+== Using JPA
+
+Adding a dependency on `ws.ament.hammock:jpa-core` will add basic JPA integration to your project.
+
+=== Default EntityManager & DataSource
+
+If you do nothing else with Hammock, out of the box a single `EntityManagerFactory` will be created with a default `DataSource` defined.  You will still need to declare a dependency on your JDBC driver, as well as define the following properties:
+
+[cols=3*,options="header"]
+|===
+| Property Name | Default Value | Description
+| hammock.jpa.__default.datasource | __default | The name to use for the default EntityManager
+| hammock.datasource.__default.url | N/A | The JDBC URL to use for your DataSource.  Either this or datasource have to be specified
+| hammock.datasource.__default.user | N/A | The JDBC User to use for your DataSource.  It is not required, since basic connectors like H2 and HSQL don't require it.
+| hammock.datasource.__default.password | N/A | The JDBC Password to use for your DataSource.  It is not required, since basic connectors like H2 and HSQL don't require it.
+| hammock.datasource.__default.datasource | N/A | The name of a previously defined DataSource to use.  You should only use this property if you are not using the url/user/password combination.
+|===
+
+=== Vendor Specific Modules
+
+There are three vendor specific modules for JPA support:
+
+- `ws.ament.hammock:jpa-hibernate` (JPA 2.1)
+- `ws.ament.hammock:jpa-eclipselink` (JPA 2.2)
+- `ws.ament.hammock:jpa-openjpa` (JPA 2.0)
+
+Each of these dependencies bring in the JPA Core module from Hammock plus the actual runtime dependencies to make these framework work.  There is no production code in any of these modules, so you can just as easily declare a dependency on `jpa-core` as well as your preferred framework.
+
+== Defining DataSources
+
+Hammock allows you to define `DataSource` instances using a few methods:
+
+- Annotate any bean with `@javax.annotation.sql.DataSourceDefinition` with necessary properties to connect to your database
+- Define a producer `@Produces @Database(name) ws.ament.hammock.jpa.DataSourceDefinition`
+- Create additional properties that reference your datasource name, e.g. `hammock.datasource.foo.url` will create a `DataSource` named `foo` in your application.
+
+If you are using the producer approach, you can inject a builder that helps create the datasource, like this:
+
+```
+   @Produces
+   @Database("test2")
+   public DataSourceDefinition createDataSource(DataSourceDefinitionBuilder builder) {
+      return builder.url("jdbc:h2:mem:test_mem").build();
+   }
+```
+
+Which will create a `DataSource` named `test2` connected to the JDBC URL `jdbc:h2:mem:test_mem`.  
+
+=== Under the Hood
+
+Each `DataSource` created is actually an instance of `HikariDataSource`
+
+== Managing Database Migrations
+
+If you declare a dependency on `ws.ament.hammock:util-flyway` your application will have support for migrating databases.  As the name implies, it's based on link:https://flywaydb.org/[FlywayDB].  Defining any `flyway` property in any of your register `ConfigSource`s will cause that property to be passed to Flyway, effectively the same properties that would go in to `flyway.conf`.  Hammock uses one special property, `flyway.execute` which controls what operations to execute.

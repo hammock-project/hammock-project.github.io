@@ -21,7 +21,7 @@
             <p><a class="btn btn-default" href="/guides/hammock2.html" role="button">View details »</a></p>
         </div>
         <div class="col-md-4">
-            <h2>Eclipse Microprofile</h2>
+            <h2>Eclipse MicroProfile</h2>
             <p>Eclipse MicroProfile Optimizes Enterprise Java for a microservices architecture.  Hammock is an implementation of their specifications.</p>
             <p><a class="btn btn-default" href="https://microprofile.io" role="button">Read about MicroProfile »</a></p>
         </div>
