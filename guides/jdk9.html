@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Migrating to Hammock 2</title>
+    <title>Running Hammock 2 on Java 9</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -68,34 +68,35 @@
 </div>
 <div class="container">	
 	<div class="page-header">
-		<h1>Migrating to Hammock 2</h1>
+		<h1>Running Hammock 2 on Java 9</h1>
 	</div>
 
-	<div id="toc" class="toc">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#notable_differences">Notable Differences</a></li>
-</ul>
+	<div class="paragraph">
+<p>There are some minor tweaks needed to make a Hammock 2.0 application run on Java 9, assuming you&#8217;re using a MicroProfile distribution.  These tweaks will be fixed in Hammock 2.1, meaning you&#8217;ll need to change nothing to make it work.</p>
 </div>
-<div class="sect1">
-<h2 id="notable_differences">Notable Differences</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>Hammock 2.0 is based on CDI 2, using Weld 3.0 and OWB 2.0 only.  CDI 1.x is no longer available.</p>
-</li>
-<li>
-<p>Apache DeltaSpike Config has been replaced by Geronimo Config, which implements MicroProfile Config</p>
-</li>
-<li>
-<p>JWT Claims have been changed to align with MicroProfile JWT specification</p>
-</li>
-<li>
-<p>The MicroProfile distributions now include the components required for MicroProfile 1.2</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Apache CXF includes basic SOAP support in its core runtime.  Even though most microservices aren&#8217;t running SOAP, you&#8217;ll need to include the SOAP APIs in your distribution.  Most people would tell you to use the flag <code>--add-module java.xml.ws</code> but this will bring in the JDK&#8217;s <code>javax.annotation</code> package, which conflicts with the published <code>javax.annotation-api</code> JAR.</p>
 </div>
+<div class="paragraph">
+<p>To ensure that your application works, add the following dependencies to your project:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;javax.annotation&lt;/groupId&gt;
+    &lt;artifactId&gt;javax.annotation-api&lt;/artifactId&gt;
+    &lt;version&gt;1.3.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.xml.ws&lt;/groupId&gt;
+    &lt;artifactId&gt;jaxws-api&lt;/artifactId&gt;
+    &lt;version&gt;2.3.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.activation&lt;/groupId&gt;
+    &lt;artifactId&gt;activation&lt;/artifactId&gt;
+    &lt;version&gt;1.1.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
 </div>
 </div>
 
