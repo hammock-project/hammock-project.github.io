@@ -25,6 +25,7 @@
                         <li><a href="/guides/webservers.html">WebServers</a></li>
                         <li><a href="/guides/rest-apis.html">Rest APIs</a></li>
                         <li><a href="/guides/databases.html">Databases</a></li>
+                        <li><a href="/guides/jdk9.html">Java 9</a></li>
                         <li class="divider"></li>
                         <li><a href="/guides/related.html">Related Tools</a></li>
                     </ul>
