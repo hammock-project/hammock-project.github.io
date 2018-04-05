@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Migrating to Hammock 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/asciidoctor.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/prettify.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="padding:0px 15px" href="../">
+                <img alt="Brand" src="/img/hammock_white.png" height="75" width="162">
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="https://github.com/hammock-project">GitHub</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Core Concepts <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/guides/cdi_runtimes.html">CDI Runtimes</a></li>
+                        <li><a href="/guides/packaging.html">Packaging</a></li>
+                        <li><a href="/guides/webservers.html">WebServers</a></li>
+                        <li><a href="/guides/rest-apis.html">Rest APIs</a></li>
+                        <li><a href="/guides/databases.html">Databases</a></li>
+                        <li><a href="/guides/jdk9.html">Java 9</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/guides/related.html">Related Tools</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+<div class="container">	
+	<div class="page-header">
+		<h1>Migrating to Hammock 2</h1>
+	</div>
+
+	<div id="toc" class="toc"> 
+ <div id="toctitle">
+  Table of Contents
+ </div> 
+ <ul class="sectlevel1"> 
+  <li><a href="#notable_differences">Notable Differences</a></li> 
+ </ul> 
+</div> 
+<div class="sect1"> 
+ <h2 id="notable_differences">Notable Differences</h2> 
+ <div class="sectionbody"> 
+  <div class="ulist"> 
+   <ul> 
+    <li> <p>Hammock 2.0 is based on CDI 2, using Weld 3.0 and OWB 2.0 only. CDI 1.x is no longer available.</p> </li> 
+    <li> <p>Apache DeltaSpike Config has been replaced by Geronimo Config, which implements MicroProfile Config</p> </li> 
+    <li> <p>JWT Claims have been changed to align with MicroProfile JWT specification</p> </li> 
+    <li> <p>The MicroProfile distributions now include the components required for MicroProfile 1.2</p> </li> 
+   </ul> 
+  </div> 
+ </div> 
+</div>
+
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2017 | Hammock Project | Hosted by GitHub | Baked with JBake | Styling with Bootstrap</a></p>
+      </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/prettify.js"></script>
+    
+  </body>
+</html>

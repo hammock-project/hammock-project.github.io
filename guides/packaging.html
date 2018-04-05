@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Packaging</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/asciidoctor.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/prettify.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="padding:0px 15px" href="../">
+                <img alt="Brand" src="/img/hammock_white.png" height="75" width="162">
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="https://github.com/hammock-project">GitHub</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Core Concepts <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/guides/cdi_runtimes.html">CDI Runtimes</a></li>
+                        <li><a href="/guides/packaging.html">Packaging</a></li>
+                        <li><a href="/guides/webservers.html">WebServers</a></li>
+                        <li><a href="/guides/rest-apis.html">Rest APIs</a></li>
+                        <li><a href="/guides/databases.html">Databases</a></li>
+                        <li><a href="/guides/jdk9.html">Java 9</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/guides/related.html">Related Tools</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+<div class="container">	
+	<div class="page-header">
+		<h1>Packaging</h1>
+	</div>
+
+	<div class="sect1"> 
+ <h2 id="how_to_package_your_application">How to package your application</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>Hammock deviates from standard Java EE by encouraging the use of 'uber-jar’s, where all of your dependencies are packaged with your application. Hammock projects can be packaged using shaded JARs, but those tend to lead to very large single JARs and become hard to follow. It is highly recommended to use <a href="http://www.capsule.io/">Capsule</a> to package your applications. This leaves your JARs in tact and not mixed together with the libraries packaged along side them.</p> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="example_maven_configuration">Example Maven Configuration</h3> 
+   <div class="paragraph"> 
+    <p>The below is an example maven project that can be used to package your application using Capsule</p> 
+   </div> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code>&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;com.mycompany&lt;/groupId&gt;
+    &lt;artifactId&gt;my-service&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;properties&gt;
+        &lt;hammock.version&gt;2.0&lt;/hammock.version&gt;
+    &lt;/properties&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;ws.ament.hammock&lt;/groupId&gt;
+            &lt;artifactId&gt;dist-microprofile&lt;/artifactId&gt;
+            &lt;version&gt;${hammock.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+                &lt;configuration&gt;
+                    &lt;source&gt;1.8&lt;/source&gt;
+                    &lt;target&gt;1.8&lt;/target&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;com.github.chrisdchristo&lt;/groupId&gt;
+                &lt;artifactId&gt;capsule-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;${capsule.maven.plugin.version}&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;build&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;appClass&gt;ws.ament.hammock.Bootstrap&lt;/appClass&gt;
+                            &lt;type&gt;fat&lt;/type&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</code></pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>This uses the base MicroProfile distribution from Hammock. It registers the main method from <code>ws.ament.hammock.Boostrap</code> and sets up the build as a fat JAR, all of the packages will be in the JAR and nothing will be downloaded at runtime. Capsule has a few other configurations you may want to try. The results of this build gives you a file named <code>my-service-1.0-SNAPSHOT-capsule.jar</code> in your target folder, which will be about 13 mb in size. Not too bad.</p> 
+   </div> 
+  </div> 
+ </div> 
+</div>
+
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2017 | Hammock Project | Hosted by GitHub | Baked with JBake | Styling with Bootstrap</a></p>
+      </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/prettify.js"></script>
+    
+  </body>
+</html>

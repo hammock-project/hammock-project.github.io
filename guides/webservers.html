@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>WebServers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/asciidoctor.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/prettify.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="padding:0px 15px" href="../">
+                <img alt="Brand" src="/img/hammock_white.png" height="75" width="162">
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="https://github.com/hammock-project">GitHub</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Core Concepts <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/guides/cdi_runtimes.html">CDI Runtimes</a></li>
+                        <li><a href="/guides/packaging.html">Packaging</a></li>
+                        <li><a href="/guides/webservers.html">WebServers</a></li>
+                        <li><a href="/guides/rest-apis.html">Rest APIs</a></li>
+                        <li><a href="/guides/databases.html">Databases</a></li>
+                        <li><a href="/guides/jdk9.html">Java 9</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/guides/related.html">Related Tools</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+<div class="container">	
+	<div class="page-header">
+		<h1>WebServers</h1>
+	</div>
+
+	<div class="sect1"> 
+ <h2 id="embedded_servlet_containers">Embedded Servlet Containers</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>Hammock provides support for three embedded servlet runtimes. Each webserver is started during the CDI event <code>AfterDeploymentValidation</code>, and is registered as a CDI extension.</p> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="apache_tomcat">Apache Tomcat</h3> 
+   <div class="paragraph"> 
+    <p>Apache Tomcat is based on the 9.0 series of milestones, providing early previews of Servlet 4 functionality. It also helps fix a concurrency issue with Weld caused by start/stops occurring on different threads. To use it in your project, add a dependency on <code>ws.ament.hammock:web-tomcat</code>. It does support WebSockets as well as Servlets, Filters and Listeners. Listeners are not treated as CDI beans.</p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="jboss_undertow">JBoss Undertow</h3> 
+   <div class="paragraph"> 
+    <p>JBoss Undertow is a light weight embedded container runtime. To use it in your project, add a dependency on <code>ws.ament.hammock:web-tomcat</code>. To use WebSockets, you need to have an annotated endpoint. It supports Servlets, Filters and Listeners via normal means.</p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="eclipse_jetty">Eclipse Jetty</h3> 
+   <div class="paragraph"> 
+    <p>Using the module <code>ws.ament.hammock:web-jetty</code> brings in Jetty as your webserver. It supports WebSockets, Servlets, Filters and Listeners. The <code>Decorator</code> used, intended to inject into fields, replaces the instance with an unmanaged version from CDI.</p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="configuration_settings">Configuration settings</h3> 
+   <div class="paragraph"> 
+    <p>The below configuration settings can be added to any property file or other <code>ConfigSource</code> you register.</p> 
+   </div> 
+   <table class="tableblock frame-all grid-all spread"> 
+    <colgroup> 
+     <col style="width: 33.3333%;"> 
+     <col style="width: 33.3333%;"> 
+     <col style="width: 33.3334%;"> 
+    </colgroup> 
+    <thead> 
+     <tr> 
+      <th class="tableblock halign-left valign-top">Property Name</th> 
+      <th class="tableblock halign-left valign-top">Default Value</th> 
+      <th class="tableblock halign-left valign-top">Description</th> 
+     </tr> 
+    </thead> 
+    <tbody> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">webserver.port</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">The HTTP Listen Port</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">webserver.address</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">0.0.0.0</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">The Bind Address, the default 0.0.0.0 means it will listen on all addresses</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">file.dir</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">/tmp</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">The location to load static files from</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">webserver.secured.port</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">If non-zero, starts an HTTPS listener on the given port</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">webserver.keystore.path</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">The keystore path. Must be set for SSL support.</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">webserver.keystore.type</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">The keystore type. Must be set for SSL support.</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">webserver.keystore.password</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">The keystore password. Must be set for SSL support.</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">webserver.truststore.path</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">The location for the truststore. This property is not used in Tomcat</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">webserver.truststore.type</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">The truststore type. This property is not used in Tomcat</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">webserver.truststore.password</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">The truststore password. This property is not used in Tomcat</p></td> 
+     </tr> 
+    </tbody> 
+   </table> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="understanding_container_behavior">Understanding Container Behavior</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>Hammock creates instances of unmanaged beans to better align to how the Java EE specification treats these resources. However, there is a relationship with CDI Bean Discovery:</p> 
+  </div> 
+  <div class="ulist"> 
+   <ul> 
+    <li> <p><code>bean-discovery-mode=none</code> means that no components will be discovered within that specific JAR file</p> </li> 
+    <li> <p><code>bean-discovery-mode=all</code> means that all components will be scanned. You can optionally use a <a href="http://docs.jboss.org/cdi/spec/2.0/cdi-spec.html#trimmed_bean_archive"><code>&lt;trim/&gt;</code></a> tag.</p> </li> 
+    <li> <p><code>bean-discovery-mode=annotated</code> means that the only components to be scanned are those with <a href="http://docs.jboss.org/cdi/spec/2.0/cdi-spec.html#bean_defining_annotations">bean defining annotations</a>. Functionally, this means you should add <code>@Dependent</code> as your scope for these classes.</p> </li> 
+   </ul> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Which means in <code>bean-discovery-mode=all</code> the following servlet would be discovered:</p> 
+  </div> 
+  <div class="listingblock"> 
+   <div class="content"> 
+    <pre class="prettyprint highlight"><code>@WebServlet(urlPatterns = {"/*"}, name = "DefaultServlet")
+public class DefaultServlet extends HttpServlet{
+....
+}</code></pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>But would not be discovered in <code>bean-discovery-mode=annotated</code> or with <code>&lt;trim/&gt;</code> enabled. To discovery it in these, you must change its definition to:</p> 
+  </div> 
+  <div class="listingblock"> 
+   <div class="content"> 
+    <pre class="prettyprint highlight"><code>@Dependent
+@WebServlet(urlPatterns = {"/*"}, name = "DefaultServlet")
+public class DefaultServlet extends HttpServlet{
+....
+}</code></pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Note the explicit usage of <code>@Dependent</code> versus the implicit usage in the first definition.</p> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="using_annotations">Using Annotations</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p><code>@WebFilter</code>, <code>@WebServlet</code>, and <code>@WebListener</code> are the preferred means to registering your component. URL mappings can be represented as configuration properties, which can even be a comma separated list. Take for example how the Camel Servlet is registered:</p> 
+  </div> 
+  <div class="listingblock"> 
+   <div class="content"> 
+    <pre class="prettyprint highlight"><code>@WebServlet(urlPatterns = {"${camel.servlet.uri}"}, name = "CamelServlet")
+@Dependent
+public class HammockCamelServlet extends CamelHttpTransportServlet {
+}</code></pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>This configuration property will be resolved at deployment time only and set the path. There is a default value that is used when this property is not available.</p> 
+  </div> 
+ </div> 
+</div>
+
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2017 | Hammock Project | Hosted by GitHub | Baked with JBake | Styling with Bootstrap</a></p>
+      </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/prettify.js"></script>
+    
+  </body>
+</html>
